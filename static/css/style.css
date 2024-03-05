@@ -1,0 +1,21 @@
+/* This makes it so that every subheading is dark dark gray, italicized, underlined and bolded*/
+div H2 {
+    color:#28282B;
+    font-weight: bold;
+    text-decoration: underline;
+    font-style: italic
+}
+/* This creates a black table with the class schedule information */
+table, td, th {
+    border-color: black;
+    border-style: solid;
+    border-width: 3px
+    border-collapse: collapse;
+
+}
+/* This makes it so every paragraph will have larger font by 1.1 and will be the color dark gray */
+div P{
+    font-size: 1.1em;
+    color:#454545;
+}
+
