@@ -12,8 +12,10 @@ class Student(db.Model):
     num_credits_completed = db.Column(db.Integer, nullable=False)
     gpa = db.Column(db.Float, nullable=False)
     is_honors = db.Column(db.Boolean, nullable=False)
+    student_email = db.Column(db.String(100), nullable=False)
 
-    def __init__(self, first_name, last_name, major_id, birth_date, is_honors):
+
+    def __init__(self, first_name, last_name, major_id, birth_date, is_honors,student_email):
         self.first_name = first_name
         self.last_name = last_name
         self.major_id = major_id
@@ -21,6 +23,7 @@ class Student(db.Model):
         self.num_credits_completed = 0
         self.gpa = 0.0
         self.is_honors = is_honors
+        self.student_email= student_email
 
     def __repr__(self):
         return f"{self.first_name} {self.last_name}"
