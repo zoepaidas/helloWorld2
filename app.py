@@ -35,51 +35,54 @@ def student_view(student_id):
         flash(f'Student attempting to be viewed could not be found!', 'error')
         return redirect(url_for('student_view_all'))
 
-    @app.route('/student/create', methods=['GET', 'POST'])
-    def student_create():
-        if request.method == 'GET':
-            majors = Major.query.order_by(Major.major) \
-                .order_by(Major.major) \
-                .all()
-            return render_template('student_entry.html', majors=majors, action='create')
-        elif request.method == 'POST':
-            first_name = request.form['first_name']
-            last_name = request.form['last_name']
-            major_id = request.form['major_id']
 
-            birth_date = request.form['birth_date']
-            is_honors = True if 'is_honors' in request.form else False
+@app.route('/student/create', methods=['GET', 'POST'])
+def student_create():
+    if request.method == 'GET':
+        majors = Major.query.order_by(Major.major) \
+            .order_by(Major.major) \
+            .all()
+        return render_template('student_entry.html', majors=majors, action='create')
+    elif request.method == 'POST':
+        first_name = request.form['first_name']
+        last_name = request.form['last_name']
+        major_id = request.form['major_id']
+        student_email = request.form['student_email']
+        birth_date = request.form['birth_date']
+        is_honors = True if 'is_honors' in request.form else False
 
-            student = Student(first_name=first_name, last_name=last_name, major_id=major_id,
-                              birth_date=dt.strptime(birth_date, '%Y-%m-%d'), is_honors=is_honors)
-            db.session.add(student)
-            db.session.commit()
-            flash(f'{first_name} {last_name} was successfully added!', 'success')
-            return redirect(url_for('student_view_all'))
-
-        flash('Invalid action. Please try again.', 'error')
+        student = Student(first_name=first_name, last_name=last_name, major_id=major_id,
+                          birth_date=dt.strptime(birth_date, '%Y-%m-%d'), is_honors=is_honors, student_email=student_email)
+        db.session.add(student)
+        db.session.commit()
+        flash(f'{first_name} {last_name} was successfully added!', 'success')
         return redirect(url_for('student_view_all'))
 
-    @app.route('/student/update/<int:student_id>', methods=['GET', 'POST'])
-    def student_edit(student_id):
-        if request.method == 'GET':
-            student = Student.query.filter_by(student_id=student_id).first()
-            majors = Major.query.order_by(Major.major) \
-                .order_by(Major.major) \
-                .all()
+    flash('Invalid action. Please try again.', 'error')
+    return redirect(url_for('student_view_all'))
 
-            if student:
-                return render_template('student_entry.html', student=student, majors=majors, action='update')
 
-            else:
-                flash(f'Student attempting to be edited could not be found!', 'error')
+@app.route('/student/update/<int:student_id>', methods=['GET', 'POST'])
+def student_edit(student_id):
+    if request.method == 'GET':
+        student = Student.query.filter_by(student_id=student_id).first()
+        majors = Major.query.order_by(Major.major) \
+            .order_by(Major.major) \
+            .all()
 
-        elif request.method == 'POST':
-            student = Student.query.filter_by(student_id=student_id).first()
+        if student:
+            return render_template('student_entry.html', student=student, majors=majors, action='update')
+
+        else:
+            flash(f'Student attempting to be edited could not be found!', 'error')
+
+    elif request.method == 'POST':
+        student = Student.query.filter_by(student_id=student_id).first()
 
         if student:
             student.first_name = request.form['first_name']
             student.last_name = request.form['last_name']
+            student.student_email = request.form['student_email']
             student.major_id = request.form['major_id']
             student.birthdate = dt.strptime(request.form['birth_date'], '%Y-%m-%d')
             student.num_credits_completed = request.form['num_credits_completed']
