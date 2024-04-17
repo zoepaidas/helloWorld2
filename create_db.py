@@ -9,6 +9,7 @@ with app.app_context():
     # Initial loading of majors
     majors = ['Accounting', 'Finance', 'Information Systems', 'International Business', 'Management', \
               'Operations Management & Business Analytics', 'Supply Chain Management']
+
     for each_major in majors:
         print(f'{each_major} inserted into major')
         a_major = Major(major=each_major)
