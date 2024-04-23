@@ -117,7 +117,8 @@ def student_view(student_id):
     # This point should never be reached as all roles are accounted for. Adding defensive programming as a double check.
     else:
         flash(f'Invalid request. Please contact support if this problem persists.', 'error')
-        return render_template('error.html')
+        return render_template('404.html')
+
 
 
 @app.route('/student/create', methods=['GET', 'POST'])
